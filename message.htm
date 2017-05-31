@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, user-scalable=no">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+        }
+
+        textarea {
+            -webkit-appearance: none;
+            border: 0;
+            width: 97%;
+            padding: 6px;
+            font-size: 18px;
+            font-family: Verdana, sans-serif;
+        }
+    </style>
+</head>
+<body>
+    <div>
+        <form>
+            <textarea autofocus placeholder="I would like to make an appointment." id="msg" rows="4"></textarea>
+        </form>
+    </div>
+    <script>
+        function SendMessage() {
+            var e = document.getElementById('msg');
+            var text = e.value;
+            if (!text || text.length == 0) {
+                hostui.alert('Message is required.');
+                e.focus();
+                return;
+            }
+            var msg = {
+                uicode: "msgthread",
+                message: text
+            }
+            hostui.sendMessage(JSON.stringify(msg), 'Close');
+        }
+        function Close(resp) {
+            if (!resp) {
+                hostui.close();
+            } else if (resp.status == 200) {
+                hostui.close();
+            } else {
+                hostui.alert('Server Error: ' + resp.statusText);
+            }
+        }
+        hostui.addAction('Send', 'SendMessage');
+    </script>
+</body>
+</html>

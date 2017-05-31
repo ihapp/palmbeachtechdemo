@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, user-scalable=no">
+    <style>
+        #chart table {
+            width: auto;
+            margin: 20px auto !important;
+        }
+    </style>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+
+        var chart = null;
+        var speed = 0;
+
+        function Draw() {
+
+            if (!chart) {
+                chart = new google.visualization.Gauge(document.getElementById('chart'));
+            }
+
+            var data = google.visualization.arrayToDataTable([
+              ['Label', 'Value'],
+              ['Lambda', speed]
+            ]);
+
+            var options = {
+                width: 300, height: 300,
+                max: 1000,
+                redFrom: 900, redTo: 1000,
+                yellowFrom: 750, yellowTo: 900,
+                minorTicks: 5
+            };
+
+            chart.draw(data, options);
+        }
+
+        function Load(resp) {
+
+            if (resp.status != 200) {
+                hostui.alert('Server Error: ' + resp.statusText);
+            } else {
+
+                var endTime = performance.now();
+                speed = endTime - startTime;
+
+                document.getElementById('speed').textContent = speed;
+                if (chart) {
+                    Draw();
+                }
+
+                var body = window.atob(resp.bodyBase64);
+                var user = JSON.parse(body).user;
+                document.getElementById('user').textContent = user;
+            }
+        }
+
+        var startTime = performance.now();
+        hostui.fetchData('/awsapigateway/test', 'Load');
+        google.charts.load('current', { 'packages': ['gauge'] });
+        google.charts.setOnLoadCallback(Draw);
+    </script>
+</head>
+<body>
+    <div>User: <span id="user"></span></div>
+    <div><span id="speed"></span> ms</div>
+    <div id="chart"></div>
+</body>
+</html>

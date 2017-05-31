@@ -1,0 +1,30 @@
+'use strict';
+
+var crypto = require("crypto");
+
+exports.handler = (event, context, callback) => {
+    
+    const done = (code, body) => callback(null, {
+        statusCode: code,
+        body: JSON.stringify(body),
+        headers: {
+            'Content-Type': 'application/json',
+        },
+    });
+    
+    if (event.headers) {
+        var auth = event.headers['Authorization'];
+        if (auth && auth.length == 79) {
+            var hash = crypto.createHmac('sha256', '10628140002907243288').update(auth.substr(8, 27)).digest('base64');
+            if (hash == auth.substr(35)) {
+        	    done(200, { user: auth.substr(9, 16) });
+                return;
+            }
+        }
+    }
+    done(400, { message: 'Bad Request' });
+};
+
+
+"awsapigateway": "https://8j7qaxreu6.execute-api.us-east-1.amazonaws.com/prod/"
+
