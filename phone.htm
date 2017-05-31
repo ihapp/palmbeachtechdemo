@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, user-scalable=no">
+    <style>
+        body {
+            font-family: "Trebuchet MS", "Gill Sans", sans-serif;
+            background-color: ivory;
+            font-size: 16px;
+        }
+
+        h1 {
+            font-weight: normal;
+            text-shadow: 0 1px 1px #FFF;
+            font-size: 18px;
+            margin: 0px;
+            padding-left: 10px;
+        }
+
+        h2 {
+            font-weight: normal;
+            text-shadow: black 0px 1px 1px;
+            font-size: 16px;
+            color: white;
+            padding: 6px 6px 6px 12px;
+            background-color: #156aa6;
+            border-bottom-right-radius: 1em;
+            border-top-right-radius: 1em;
+            box-shadow: black 0px 1px 3px 0px;
+            margin: 6px 0px;
+        }
+
+        p {
+            margin: 4px 4px 4px 32px;
+            padding: 6px;
+            line-height: 1.4em;
+        }
+
+        section {
+            border-bottom: 1px solid #156aa6;
+        }
+
+        i.address::after {
+            content: '\2709';
+            font-style: normal;
+            float: left;
+            margin: 10px 4px;
+        }
+
+        i.newmsg::after {
+            content: '\270D';
+            font-style: normal;
+            float: left;
+            margin-left: 4px;
+        }
+
+        i.action::after {
+            content: '\276F';
+            font-size: 22px;
+            font-style: normal;
+            float: right;
+        }
+    </style>
+</head>
+<body>
+    <div>
+        <img src="PalmBeachTech.png" style="width: 100%;" />
+    </div>
+    <div id="name"></div>
+    
+    <section>
+        <i class="newmsg"></i>
+        <p onclick="hostui.prompt('message.htm');">
+            Send Message<i class="action"></i>
+        </p>
+    </section>
+
+    
+    <section>
+        <p onclick="hostui.open('gauge.htm');">
+            Next<i class="action"></i>
+        </p>
+    </section>
+
+    <script>
+        function DrawBizInfo(doc) {
+            document.getElementById('name').textContent = doc.Name;
+        }
+        hostui.queryData('appinfo', 'DrawBizInfo');
+    </script>
+
+</body>
+</html>
