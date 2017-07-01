@@ -26,5 +26,5 @@ exports.handler = (event, context, callback) => {
 };
 
 
-"awsapigateway": "https://8j7qaxreu6.execute-api.us-east-1.amazonaws.com/prod/"
+"awsapigateway": "https://....amazonaws.com/prod/"
 
